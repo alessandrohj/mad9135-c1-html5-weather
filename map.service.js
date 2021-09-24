@@ -1,4 +1,4 @@
-const API_TOKEN = 'THIS_NEEDS_TO_BE_YOUR_API_KEY';
+const API_TOKEN = 'pk.2b1a67e9f2ac89606bf8cd1672855f63';
 const BASE_URL = 'https://us1.locationiq.com/v1';
 
 export async function getGeolocation(location) {
@@ -11,3 +11,6 @@ export async function getGeolocation(location) {
   const data = await response.json();
   return { lat: data[0].lat, lon: data[0].lon };
 }
+
+
+//https://api.locationiq.com/v1/autocomplete.php?key=YOUR_ACCESS_TOKEN&q=SEARCH_STRING
