@@ -8,30 +8,45 @@ import { getGeolocation } from './map.service.js';
 
 
 const APP = {
-  location: null,
   init: ()=>{
     APP.listeners();
   },
   listeners: ()=>{
     document.getElementById('search-form').addEventListener('submit', APP.getAction);
+    document.getElementById('get-my-location').addEventListener('click', APP.getLocation)
   },
-  getAction: (ev)=>{
+  getAction: async (ev)=>{
     ev.preventDefault();
     let location = document.getElementById('search-field').value;
-    APP.getData(location)
+    let coord = await getGeolocation(location);
+    APP.getData(coord)
   },
-  // getLocation: ()=>{
-  //   navigator.geolocation.getCurrentPosition(success, error, [options])
-  // };
+  getLocation: ()=>{
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error, [options])
+
+    function success(pos){
+      let coord = pos.coords;
+      let location = {lat: coord.latitude, lon: coord.longitude};
+      APP.getData(location);
+    }
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+  },
   getData: async (location)=>{
       try {
-        const coord = await getGeolocation(location);
-        const forecast = await getForecast({ coord });
+        const forecast = await getForecast({ location });
         console.log(forecast);
       } catch (error) {
         console.log(error.message);
       }
-    }
+    },
 }
 
 document.addEventListener('DOMContentLoaded', APP.init)
