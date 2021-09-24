@@ -1,10 +1,5 @@
-import { getForecast, createWeatherIcon } from './weather.service.js';
+import { getForecast } from './weather.js';
 import { getGeolocation } from './map.service.js';
-
-// main();
-
-// This is a demo of how to use the two API services.
-// You should replace this with your own application logic.
 
 
 const APP = {
@@ -17,9 +12,10 @@ const APP = {
   },
   getAction: async (ev)=>{
     ev.preventDefault();
-    let location = document.getElementById('search-field').value;
-    let coord = await getGeolocation(location);
-    APP.getData(coord)
+    let search = document.getElementById('search-field').value;
+    let location = await getGeolocation(search);
+    console.log(location)
+    APP.getData(location)
   },
   getLocation: ()=>{
     let options = {
@@ -33,6 +29,7 @@ const APP = {
     function success(pos){
       let coord = pos.coords;
       let location = {lat: coord.latitude, lon: coord.longitude};
+      console.log(location);
       APP.getData(location);
     }
     function error(err) {
@@ -41,12 +38,17 @@ const APP = {
   },
   getData: async (location)=>{
       try {
-        const forecast = await getForecast({ location });
+        const forecast = await getForecast(location);
         console.log(forecast);
+        // APP.handleStorage(forecast);
       } catch (error) {
         console.log(error.message);
       }
     },
+  handleStorage: (coord)=>{
+    let dataLocation = {'lat': coord.lat, 'lon': coord.lon}
+    localStorage.setItem(JSON.stringify(dataLocation), JSON.stringify(coord))
+  }
 }
 
 document.addEventListener('DOMContentLoaded', APP.init)

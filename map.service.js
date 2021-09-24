@@ -13,4 +13,6 @@ export async function getGeolocation(location) {
 }
 
 
+
+
 //https://api.locationiq.com/v1/autocomplete.php?key=YOUR_ACCESS_TOKEN&q=SEARCH_STRING
