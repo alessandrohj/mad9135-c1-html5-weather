@@ -40,7 +40,7 @@ const APP = {
       try {
         const forecast = await getForecast(location)
         console.log(forecast);
-        APP.makeCard(forecast.current);
+        APP.makeCard(forecast);
         // APP.handleStorage(forecast);
       } catch (error) {
         console.log(error.message);
@@ -50,14 +50,27 @@ const APP = {
     let dataLocation = {'lat': coord.lat, 'lon': coord.lon}
     localStorage.setItem(JSON.stringify(dataLocation), JSON.stringify(coord))
   },
-  makeCard: ({humidity, temp, wind_speed, weather, feels_like})=>{
-    console.log(weather);
+  makeCard: (forecast)=>{
+    let {humidity, temp, wind_speed, weather, feels_like} = forecast.current;
+    
+    // let time;
+    // function getDate(timestamp){
+    //   let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    //   let date = new Date(timestamp * 1000);
+    //   let year = date.getFullYear();
+    //   let hour = date.getHours();
+    //   let month = months[date.getMonth()];
+    //   let minutes = date.getMinutes();
+    //   time =  month + ' ' + year + ', ' + hour + ':' + minutes;
+    // }
+    // getDate(dt);
+    
     let page = document.getElementById('weather');
+    page.innerHTML = '';
     let df = document.createElement('div');
-    df.innerHTML = `<div class="container">
-    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center py-3 w-64 shadow-lg cursor-pointer">
+    df.innerHTML = `
+    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center py-3 w-64 shadow-lg cursor-pointer pb-3">
       <h2 class="font-bold text-lg">NOW</h2>
-      <h3 class="pb-2">Sep 24, 201</h3>
       <div class='weather-img p-2 flex flex-col'>
         <img src="https://openweathermap.org/img/w/${weather['0'].icon}.png" alt="${weather['0'].description}">
         <p>${weather['0'].description}</p>
@@ -68,12 +81,41 @@ const APP = {
       </div>
       <div class="extra-weather-info flex gap-10 py-2">
         <p>Wind: ${Math.round(wind_speed)}km/h</p>
-        <p>Humidity: ${humidity}º</p>
+        <p>Humidity: ${humidity}%</p>
       </div>
-      </div>
-    </div>`;
+      </div>`;
 
-    page.append(df);
+
+    let hourly = forecast.hourly.slice(1, 7);
+    let div = document.createElement('div');
+    let frag = document.createDocumentFragment();
+    hourly.forEach(item => {
+      let date = new Date(item.dt * 1000);
+      let hour = date.getHours();
+      let amPm = hour >= 12 ? 'pm' : 'am';
+      hour = (hour % 12) || 12;
+      let div = document.createElement('div');
+      div.classList.add('container', 'mx-auto', 'bg-white', 'border', 'rounded', 'flex', 'flex-col', 'justify-center','items-center', 'text-center', 'p-4', 'w-64', 'shadow-lg', 'cursor-pointe')
+        div.innerHTML = `
+        <h2 class="font-bold text-lg">${hour} ${amPm}</h2>
+        <div class='weather-img p-2 flex flex-col'>
+          <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
+          <p>${item.weather['0'].description}</p>
+        </div>
+        <div class="temp">
+          <h3 class="font-bold text-3xl pb-3">${Math.round(item.temp)}º</h3>
+          <p>Feels like ${Math.round(item.feels_like)}º</p>
+        </div>
+        <div class="extra-weather-info flex gap-10 py-2">
+          <p>Wind: ${Math.round(item.wind_speed)}km/h</p>
+          <p>Humidity: ${item.humidity}%</p>
+        </div>
+        `;
+      frag.append(div)
+    })
+    div.append(frag)
+    div.classList.add('container', 'flex', 'flex-row', 'flex-wrap')
+    page.append(df, div);
   }
 }
 
