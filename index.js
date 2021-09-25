@@ -9,7 +9,7 @@ const APP = {
   listeners: ()=>{
     document.getElementById('search-form').addEventListener('submit', APP.getAction);
     document.getElementById('get-my-location').addEventListener('click', APP.getLocation);
-    document.getElementById('time-change').addEventListener('click', APP.checkFrequency)
+    document.getElementById('toggle').addEventListener('click', APP.checkFrequency)
   },
   getAction: async (ev)=>{
     ev.preventDefault();
@@ -41,7 +41,7 @@ const APP = {
       try {
         const forecast = await getForecast(location)
         console.log(forecast);
-        // APP.makeHourlyCards(forecast);
+        APP.makeHourlyCards(forecast);
         APP.makeDailyCards(forecast);
         // APP.handleStorage(forecast);
       } catch (error) {
@@ -53,20 +53,21 @@ const APP = {
     localStorage.setItem(JSON.stringify(dataLocation), JSON.stringify(coord))
   },
   makeHourlyCards: (forecast)=>{
-
+    let frequencyToggle = document.getElementById('frequency');
+    frequencyToggle.classList.remove('hidden');
     let {humidity, temp, wind_speed, weather, feels_like, dt} = forecast.current;
     
     let page = document.getElementById('weather-hourly');
     page.innerHTML = '';
     let df = document.createElement('div');
     df.innerHTML = `
-    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center py-3 w-64 shadow-lg cursor-pointer pb-3">
+    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center py-3 w-64 sm:w-80 shadow-lg cursor-pointer pb-3">
       <h2 class="font-bold text-lg">NOW</h2>
       <div class='weather-img p-2 flex flex-col'>
         <img src="https://openweathermap.org/img/w/${weather['0'].icon}.png" alt="${weather['0'].description}">
-        <p>${weather['0'].description}</p>
+        <p class='description'>${weather['0'].description}</p>
       </div>
-      <div class="temp">
+      <div class="temp pb-1">
         <h3 class="font-bold text-3xl pb-3">${Math.round(temp)}º</h3>
         <p>Feels like ${Math.round(feels_like)}º</p>
       </div>
@@ -94,7 +95,7 @@ const APP = {
         <h2 class="font-bold text-lg">${hour} ${amPm}</h2>
         <div class='weather-img p-2 flex flex-col'>
           <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
-          <p>${item.weather['0'].description}</p>
+          <p class='description'>${item.weather['0'].description}</p>
         </div>
         <div class="temp">
           <h3 class="font-bold text-3xl pb-3">${Math.round(item.temp)}º</h3>
@@ -108,7 +109,8 @@ const APP = {
       frag.append(div)
     })
     div.append(frag)
-    div.classList.add('container', 'flex', 'flex-row', 'flex-wrap', 'gap-1')
+    df.classList.add('pb-5', 'container');
+    div.classList.add('container', 'flex', 'flex-row', 'flex-wrap', 'gap-1', 'xl:grid', 'xl:grid-cols-6')
     page.append(df, div);
   },
   makeDailyCards: (forecast)=>{
@@ -137,16 +139,16 @@ const APP = {
     page.innerHTML = '';
     let df = document.createElement('div');
     df.innerHTML = `
-    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center py-3 w-80 shadow-lg cursor-pointer pb-3">
+    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center p-2 sm:p-2 w-64 sm:w-80 shadow-lg cursor-pointer">
       <h2 class="font-bold text-lg">TODAY</h2>
       <h3>${time}</h3>
       <div class='weather-img p-2 flex flex-col'>
         <img src="https://openweathermap.org/img/w/${today.weather[0].icon}.png" alt="${today.weather[0].description}">
-        <p>${today.weather[0].description}</p>
+        <p class='description'>${today.weather[0].description}</p>
       </div>
       <div class="temp">
         <h3 class="font-bold text-3xl pb-3">${Math.round(today.temp['min'])}º / ${Math.round(today.temp['max'])}</h3>
-        <span class='flex flex-row gap-4'>
+        <span class='flex flex-row gap-4 sm:gap-7'>
         <p>Sunrise: ${getDate(today.sunrise,'sun')}</p>
         <p>Sunset: ${getDate(today.sunset,'sun')} </p>
         </span>
@@ -166,15 +168,15 @@ const APP = {
     console.log(daily);
     let div = document.createElement('div');
     let frag = document.createDocumentFragment();
-    daily.forEach(item => {
+    daily.forEach((item, index) => {
       let day = getDate(item.dt);
       let div = document.createElement('div');
       div.classList.add('container', 'mx-auto', 'bg-white', 'border', 'rounded', 'flex', 'flex-col', 'justify-center','items-center', 'text-center', 'p-4', 'w-64', 'shadow-lg', 'cursor-pointe')
         div.innerHTML = `
-        <h2 class="font-bold text-lg">${day}</h2>
+        <h2 class="font-bold text-lg">${index >= 1 ? day : 'Tomorrow'}</h2>
         <div class='weather-img p-2 flex flex-col'>
-          <img src="https://openweathermap.org/img/w/${item.weather[0].icon}.png" alt="${item.weather[0].description}">
-          <p>${item.weather[0].description}</p>
+          <img src="https://openweathermap.org/img/w/${item.weather[0].icon}.png" class='w-24' alt="${item.weather[0].description}">
+          <p class='description'>${item.weather[0].description}</p>
         </div>
         <div class="temp">
         <h3 class="font-bold text-3xl pb-3">${Math.round(item.temp['min'])}º / ${Math.round(item.temp['max'])}</h3>
@@ -191,14 +193,24 @@ const APP = {
         `;
       frag.append(div)
     })
-    div.append(frag)
-    div.classList.add('container', 'flex', 'flex-row', 'flex-wrap', 'gap-1')
+    div.append(frag);
+    div.classList.add('container', 'flex', 'flex-row', 'flex-wrap', 'gap-1', 'xl:grid', 'xl:grid-cols-6');
+    df.classList.add('pb-2', 'sm:pm-5', 'container');
     page.append(df, div);
   },
   checkFrequency:()=>{
+    let hourly = document.getElementById('weather-hourly')
+    let daily = document.getElementById('weather-daily')
     let selector = document.getElementById('time-change');
-    if (selector.textContent === 'Daily') selector.textContent = 'Hourly';
-    else selector.textContent = 'Daily'
+    if (selector.innerHTML === 'Daily') {
+    daily.classList.remove('hidden');
+    hourly.classList.add('hidden');
+    selector.innerHTML = 'Hourly'
+  } else {
+    hourly.classList.remove('hidden');
+    daily.classList.add('hidden');
+    selector.innerHTML = 'Daily'
+  }
 
     return selector.textContent;
   },
