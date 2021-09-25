@@ -10,6 +10,16 @@ const APP = {
     document.getElementById('search-form').addEventListener('submit', APP.getAction);
     document.getElementById('get-my-location').addEventListener('click', APP.getLocation);
     document.getElementById('toggle').addEventListener('click', APP.checkFrequency)
+    document.getElementById('search-form').addEventListener('change', APP.autocomplete);
+  },
+    autocomplete: ()=>{
+      let SEARCH_STRING = document.getElementById('search-field').value;
+      console.log(SEARCH_STRING)
+      let url = `https://api.locationiq.com/v1/autocomplete.php?key=pk.2b1a67e9f2ac89606bf8cd1672855f63&q=${SEARCH_STRING}`
+      fetch(url)
+      .then(response => response.json())
+      .then(data => console.log(data))
+
   },
   getAction: async (ev)=>{
     ev.preventDefault();
