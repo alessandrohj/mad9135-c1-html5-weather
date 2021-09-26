@@ -1,5 +1,5 @@
 import { getForecast } from './weather.js';
-import { getGeolocation } from './map.service.js';
+import { getGeolocation, getCity } from './map.service.js';
 
 
 const APP = {
@@ -22,12 +22,22 @@ const APP = {
       .then(data => console.log(data))
 
   },
+  findCity: async (location)=> {
+    let reverse = await getCity(location);
+    let {city, state, country} = reverse.address;
+    let text = `${city}, ${state}, ${country}`;
+    let div = document.getElementById('location');
+    div.classList.remove('hidden');
+    let page = document.getElementById('city');
+    page.append(text);
+  },
   getAction: async (ev)=>{
     ev.preventDefault();
     let search = document.getElementById('search-field').value;
     let location = await getGeolocation(search);
-    console.log(location)
-    APP.getData(location)
+    console.log(location);
+    APP.getData(location);
+    APP.findCity(location);
   },
   getLocation: ()=>{
     let options = {
@@ -43,6 +53,7 @@ const APP = {
       let location = {lat: coord.latitude, lon: coord.longitude};
       console.log(location);
       APP.getData(location);
+      APP.findCity(location);
     }
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -72,6 +83,7 @@ const APP = {
       let obj = JSON.parse(storage);
       APP.makeHourlyCards(obj.coord);
       APP.makeDailyCards(obj.coord);
+      APP.findCity(obj.coord);
       let timeNow = Date.now();
       if ((timeNow - obj.timestamp) * 1000 > 3600) {
         let location = {'lat': obj.coord.lat, 'lon': obj.coord.lon};
@@ -151,11 +163,11 @@ const APP = {
       let hour = date.getHours();
       let day = date.getDate();
       let month = months[date.getMonth()];
-      let minutes = date.getMinutes();
+      let minutes = "0" + date.getMinutes();
       if (sun == 'sun'){
         let amPm = hour >= 12 ? 'pm' : 'am';
         hour = (hour % 12) || 12;
-        return hour + ':' + minutes + amPm;
+        return hour + ':' + minutes.toString().slice(-2) + amPm;
       } else {
       return  month + ' ' + year + ', ' + day}
     }
