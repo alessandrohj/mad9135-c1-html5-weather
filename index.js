@@ -157,10 +157,12 @@ const APP = {
   makeDailyCards: (forecast)=>{
     
     function getDate(timestamp, sun){
+      let days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
       let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       let date = new Date(timestamp * 1000);
       let year = date.getFullYear();
       let hour = date.getHours();
+      let dayOfTheWeek = days[date.getDay()];
       let day = date.getDate();
       let month = months[date.getMonth()];
       let minutes = "0" + date.getMinutes();
@@ -168,7 +170,10 @@ const APP = {
         let amPm = hour >= 12 ? 'pm' : 'am';
         hour = (hour % 12) || 12;
         return hour + ':' + minutes.toString().slice(-2) + amPm;
-      } else {
+      } else if (sun == 'week') {
+        return dayOfTheWeek;
+      }
+        else {
       return  month + ' ' + year + ', ' + day}
     }
 
@@ -210,11 +215,11 @@ const APP = {
     let div = document.createElement('div');
     let frag = document.createDocumentFragment();
     daily.forEach((item, index) => {
-      let day = getDate(item.dt);
+      let day = getDate(item.dt, 'week');
       let div = document.createElement('div');
       div.classList.add('container', 'mx-auto', 'bg-white', 'border', 'rounded', 'flex', 'flex-col', 'justify-center','items-center', 'text-center', 'p-4', 'w-64', 'shadow-lg', 'cursor-pointe')
         div.innerHTML = `
-        <h2 class="font-bold text-lg">${index >= 1 ? day : 'Tomorrow'}</h2>
+        <h2 class="font-bold text-lg">${index == 0 ? 'Tomorrow' : day}</h2>
         <div class='weather-img p-2 flex flex-col'>
           <img src="https://openweathermap.org/img/w/${item.weather[0].icon}.png" class='w-24' alt="${item.weather[0].description}">
           <p class='description'>${item.weather[0].description}</p>
