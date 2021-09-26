@@ -11,6 +11,7 @@ const APP = {
     document.getElementById('get-my-location').addEventListener('click', APP.getLocation);
     document.getElementById('toggle').addEventListener('click', APP.checkFrequency)
     document.getElementById('search-form').addEventListener('change', APP.autocomplete);
+    APP.handleStorage();
   },
     autocomplete: ()=>{
       let SEARCH_STRING = document.getElementById('search-field').value;
@@ -49,18 +50,36 @@ const APP = {
   },
   getData: async (location)=>{
       try {
+        console.log(location);
         const forecast = await getForecast(location)
-        console.log(forecast);
         APP.makeHourlyCards(forecast);
         APP.makeDailyCards(forecast);
-        // APP.handleStorage(forecast);
+        APP.addStorage(forecast, forecast.current.dt);
       } catch (error) {
         console.log(error.message);
       }
     },
-  handleStorage: (coord)=>{
-    let dataLocation = {'lat': coord.lat, 'lon': coord.lon}
-    localStorage.setItem(JSON.stringify(dataLocation), JSON.stringify(coord))
+    addStorage: (coord, timestamp)=>{
+    localStorage.setItem('weather-app', JSON.stringify({timestamp, coord}));
+    let location = {'lat': coord.lat, 'lon': coord.lon};
+    let interval = setInterval(APP.getData, 3600000, location);
+
+  },
+  handleStorage: ()=>{
+    console.log('loaded');
+    let storage = localStorage.getItem('weather-app');
+    if (storage) {
+      let obj = JSON.parse(storage);
+      APP.makeHourlyCards(obj.coord);
+      APP.makeDailyCards(obj.coord);
+      let timeNow = Date.now();
+      if ((timeNow - obj.timestamp) * 1000 > 3600) {
+        let location = {'lat': obj.coord.lat, 'lon': obj.coord.lon};
+        APP.getData(location)
+      } else {
+        console.log('valid')
+      }
+    }
   },
   makeHourlyCards: (forecast)=>{
     let frequencyToggle = document.getElementById('frequency');
