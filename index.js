@@ -10,18 +10,18 @@ const APP = {
     document.getElementById('search-form').addEventListener('submit', APP.getAction);
     document.getElementById('get-my-location').addEventListener('click', APP.getLocation);
     document.getElementById('toggle').addEventListener('click', APP.checkFrequency)
-    document.getElementById('search-form').addEventListener('change', APP.autocomplete);
+    // document.getElementById('search-form').addEventListener('change', APP.autocomplete);
     APP.handleStorage();
   },
-    autocomplete: ()=>{
-      let SEARCH_STRING = document.getElementById('search-field').value;
-      console.log(SEARCH_STRING)
-      let url = `https://api.locationiq.com/v1/autocomplete.php?key=pk.2b1a67e9f2ac89606bf8cd1672855f63&q=${SEARCH_STRING}`
-      fetch(url)
-      .then(response => response.json())
-      .then(data => console.log(data))
+  //   autocomplete: ()=>{
+  //     let SEARCH_STRING = document.getElementById('search-field').value;
+  //     console.log(SEARCH_STRING)
+  //     let url = `https://api.locationiq.com/v1/autocomplete.php?key=pk.2b1a67e9f2ac89606bf8cd1672855f63&q=${SEARCH_STRING}`
+  //     fetch(url)
+  //     .then(response => response.json())
+  //     .then(data => console.log(data))
 
-  },
+  // },
   findCity: async (location)=> {
     let reverse = await getCity(location);
     let {city, state, country} = reverse.address;
@@ -66,6 +66,7 @@ const APP = {
         APP.makeHourlyCards(forecast);
         APP.makeDailyCards(forecast);
         APP.addStorage(forecast, forecast.current.dt);
+        console.log(forecast);
       } catch (error) {
         console.log(error.message);
       }
@@ -97,20 +98,29 @@ const APP = {
     let frequencyToggle = document.getElementById('frequency');
     frequencyToggle.classList.remove('hidden');
     let {humidity, temp, wind_speed, weather, feels_like, dt} = forecast.current;
+
+    let {min, max } = forecast.daily[0].temp;
     
     let page = document.getElementById('weather-hourly');
     page.innerHTML = '';
     let df = document.createElement('div');
     df.innerHTML = `
-    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center py-3 w-64 sm:w-80 shadow-lg cursor-pointer pb-3">
+    <div class="container mx-auto bg-white border rounded flex flex-col justify-center items-center text-center py-5 w-64 sm:w-80 shadow-lg cursor-pointer pb-5">
       <h2 class="font-bold text-lg">NOW</h2>
       <div class='weather-img p-2 flex flex-col'>
         <img src="https://openweathermap.org/img/w/${weather['0'].icon}.png" alt="${weather['0'].description}">
-        <p class='description'>${weather['0'].description}</p>
+        <p class='description'>${weather['0'].main}</p>
       </div>
-      <div class="temp pb-1">
+      <div class='flex flex-row gap-10'>
+      <div class="temp-now pb-1">
         <h3 class="font-bold text-3xl pb-3">${Math.round(temp)}º</h3>
         <p>Feels like ${Math.round(feels_like)}º</p>
+      </div>
+      <div class="temp-day pl-10">
+      <h4 class='font-bold'>Today</h4>
+      <p class="text-xl pb-3">${Math.round(min)}º</p>
+      <p class="text-xl pb-3"> ${Math.round(max)}º</p>
+      </div>
       </div>
       <div class="extra-weather-info flex gap-10 py-2">
         <p>Wind: ${Math.round(wind_speed)}km/h</p>
@@ -121,6 +131,7 @@ const APP = {
     /*
     * Hourly forecast
     */
+
     let hourly = forecast.hourly.slice(0, 6);
     let div = document.createElement('div');
     let frag = document.createDocumentFragment();
@@ -232,6 +243,7 @@ const APP = {
         </span>
       </div>
       <div class="extra-weather-info flex gap-10 py-2">
+      <i class="fa-solid fa-wind"></i>
         <p>Wind: ${Math.round(item.wind_speed)}km/h</p>
         <p>Humidity: ${item.humidity}%</p>
       </div>
