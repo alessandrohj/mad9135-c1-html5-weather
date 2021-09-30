@@ -36,6 +36,12 @@
   border: 1px solid rgba(1, 2, 54, .05)
 }
 
-.weather{
 
+.current-filter{
+ background-color: #0c125f;
+}
+
+.weather {
+  height: 26vh;
+  width: 90vw;
 }

@@ -31,9 +31,6 @@
 </div>
 <label for="toggle" id='time-change' class="font-bold cursor-pointer transition duration-200 ease-in">Daily</label>
 </div>
-<div id="location" class="hidden text-center">
-  <h2>Showing results for <span id='city'></span></h2>
-</div>
 <section id='weather-section' class="py-6 content-center">
   <!-- <div class="weather-data">
     <div class="city">
@@ -46,15 +43,18 @@
           <p id="date">Sep 30, 2021</p>
           <span class="flex py-2">
           <i class="fas fa-map-marker-alt"></i>
-          <p id="location" class="pl-1 text-lg">Ottawa, CA</p>
+          <p id="city" class="pl-1 text-lg"></p>
         </span>
         </div>
         <div class="weather-conditions flex-grow">
           <!-- <p>Icon</p> -->
           <div class="absolute bottom-6">
-            <!-- <p class="pl-4 font-bold text-xl">Now</p> -->
-          <h2 class="font-bold text-6xl">15º</h2>
-          <p class="pl-2 font-bold text-lg">Clouds</p>
+          <h2 id='tempNow' class="font-bold text-6xl">15º</h2>
+         <span class="flex gap-1">
+           <p>Feels like</p>
+           <p id='feels-like' class="text-lg font-bold">20º</p>
+          </span>
+          <p id='weatherState'class="pl-2 font-bold text-lg">Clouds</p>
         </div>
         <div class="absolute bottom-3 right-3 text-2xl font-bold">
           <span class="flex gap-2">
@@ -68,34 +68,37 @@
         </div>
         </div>
       </div>
-    <div class="weather container border rounded rounded-2xl my-5  w-80 h-64 mx-auto  shadow-lg">
+    </div>
+    <div class="weather mx-auto">
+      <div class="weather container border rounded rounded-2xl my-5 mx-auto shadow-lg">
         <div class="weather-details bg-gray-100 rounded-2xl pb-2 py-1">
           <div class="weather-details-precipitation flex pl-5"> 
             <h3 class="font-bold">Precipitation</h3>
-            <p class="flex-grow text-right pr-5">15%</p>
+            <p id='precipitation' class="flex-grow text-right pr-5">15%</p>
           </div>
           <div class="weather-details-humidity flex pl-5"> 
             <h3 class="font-bold">Humidity</h3>
-            <p class="flex-grow text-right pr-5">34%</p>
+            <p id='humidity' class="flex-grow text-right pr-5">34%</p>
           </div>
           <div class="weather-details-wind flex pl-5"> 
             <h3 class="font-bold">Wind</h3>
-            <p class="flex-grow text-right pr-5">10km/h</p>
+            <p id='wind' class="flex-grow text-right pr-5">10km/h</p>
+          </div>
+          <div class="weather-details-sunrise flex pl-5"> 
+            <h3 class="font-bold">Sunrise</h3>
+            <p id='sunrise' class="flex-grow text-right pr-5">10km/h</p>
+          </div>
+          <div class="weather-details-sunset flex pl-5"> 
+            <h3 class="font-bold">Sunset</h3>
+            <p id='sunset' class="flex-grow text-right pr-5">10km/h</p>
           </div>
         </div>
         <span class="text-center block p-2">Daily / Hourly</span>
         <div id="weather-small-card" class="weather-cards flex">
-          <div class="weather-card-detail bg-black w-16 h-28 text-center flex flex-col justify-between p-1 m-2 rounded-xl">
-            <p class="text-white">Icon</p>
-            <p class="text-white">Day</p>
-            <p class="text-white">Temp</p>
-          </div>
+          <div id='hourly-cards' class="flex"></div>
+          <div id='daily-cards'  class="flex hidden"></div>
         </div>
       </div>
-
-    </div>
-    <div class="weather">
-
     </div>
 
   </div>
