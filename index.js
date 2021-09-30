@@ -53,6 +53,7 @@ const APP = {
         const forecast = await getForecast(location)
         APP.mainCard(forecast);
         APP.makeHourlyCards(forecast);
+        APP.makeDailyCards(forecast);
         APP.addStorage(forecast, forecast.current.dt);
         console.log(forecast);
       } catch (error) {
@@ -132,6 +133,7 @@ let night = document.getElementById('sunset');
   },
   makeHourlyCards: (forecast)=>{
     let hourlyCards = document.getElementById('hourly-cards');
+    hourlyCards.innerHTML ='';
     let frag = document.createDocumentFragment();
     /**
      * Hourly
@@ -159,6 +161,46 @@ let night = document.getElementById('sunset');
     let day = document.getElementById('day');
     let date = document.getElementById('date');
     let dailyCards = document.getElementById('daily-cards');
+    let frag = document.createDocumentFragment();
+    dailyCards.innerHTML = ''
+
+    function getDate(timestamp, sun){
+      let daysFull = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      let days = ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      let date = new Date(timestamp * 1000);
+      let year = date.getFullYear();
+      let dayOfTheWeek = days[date.getDay()];
+      let dayOfTheWeekFull = daysFull[date.getDay()];
+      let day = date.getDate();
+      let month = months[date.getMonth()];
+      if (sun == 'week') {
+        return dayOfTheWeek;
+      } else if (sun == 'full') {
+        return dayOfTheWeekFull;
+      }
+        else {
+      return  `${month} ${day}, ${year}`}
+    }
+    date.textContent = getDate(forecast.current.dt)
+    day.textContent = getDate(forecast.current.dt, 'full')
+
+    let days = forecast.daily.slice(1,7);
+
+    days.forEach((item, index) =>{
+      let dayOfTheWeek = getDate(item.dt, 'week');
+      let div = document.createElement('div');
+      div.classList.add('weather-card-detail', 'w-16', 'h-28', 'text-center', 
+      'flex', 'flex-col', 'justify-between', 'p-1', 'm-2', 'rounded-xl', 'bg-black');
+      div.innerHTML = `
+      <p class="text-white">${dayOfTheWeek}</p>
+      <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
+      <p class="text-white">${Math.round(item.temp.min)}º / ${Math.round(item.temp.max)}</p>
+      `;
+      frag.append(div)
+     })
+     dailyCards.append(frag)
+    
   },
   checkFrequency:()=>{
     let hourly = document.getElementById('weather-hourly')
