@@ -19,6 +19,7 @@ export async function getCity({lat: LAT, lon: LON}) {
     throw new Error(response.statusText);
   }
   const data = await response.json();
+  console.log(data);
   return data;
 }
 

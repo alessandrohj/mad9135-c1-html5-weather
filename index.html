@@ -16,26 +16,15 @@
       <a href="#" class="text-2xl no-underline text-white hover:text-red ">Weather App</a>
     </div>
   </nav>
-<div id='search'>
-  	<form id='search-form' class="m-4 flex">
+<div id='search' class="mx-auto">
+  	<form id='search-form' class="m-4 flex pl-4">
     	<input id='search-field' class="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white" placeholder="Enter location"/>
 		<button id='search-button' class="rounded-r-lg bg-blue-800  text-white font-bold p-4 uppercase border-grey-400 border-t border-b border-r"><i class="fas fa-search text-3xl"></i></button>
 	</form>
-  <h3 id='get-my-location' class='pl-5 text-lg font-bold cursor-pointer pb-3' id='get-my-location'>Get my location</h3>
+  <h3 id='get-my-location' class='text-center text-lg font-bold cursor-pointer pb-3' id='get-my-location'>Get my location <i class="fas fa-compass"></i></h3>
 </div>
 </header>
-<div id='frequency' class="pl-3 hidden">
-<div class="relative inline-block w-10 mr-2 align-middle select-none py-2">
-  <input type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-  <label for="toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-</div>
-<label for="toggle" id='time-change' class="font-bold cursor-pointer transition duration-200 ease-in">Daily</label>
-</div>
 <section id='weather-section' class="py-6 content-center">
-  <!-- <div class="weather-data">
-    <div class="city">
-
-    </div> -->
     <div class="current">
       <div id='current' class="current-details container border rounded rounded-2xl mx-auto block flex flex-col pl-4 h-64 w-80 relative shadow-lg">
         <div class="current-details-location-date">
@@ -47,12 +36,12 @@
         </span>
         </div>
         <div class="weather-conditions flex-grow">
-          <!-- <p>Icon</p> -->
-          <div class="absolute bottom-6">
+          <div class="absolute bottom-0">
+            <img id='main-icon' src="" alt="">
           <h2 id='tempNow' class="font-bold text-6xl">15º</h2>
          <span class="flex gap-1">
-           <p>Feels like</p>
-           <p id='feels-like' class="text-lg font-bold">20º</p>
+           <p  class="text-lg font-bold">Feels like</p>
+           <p id='feels-like' class="text-lg font-bold"></p>
           </span>
           <p id='weatherState'class="pl-2 font-bold text-lg">Clouds</p>
         </div>
@@ -93,7 +82,10 @@
             <p id='sunset' class="flex-grow text-right pr-5">10km/h</p>
           </div>
         </div>
-        <span class="text-center block p-2">Daily / Hourly</span>
+        <div class="block p-3 flex rounded bg-grey-200 gap-8 inline text-center">
+          <p>Hourly</p>
+          <p>Daily</p>
+          </div>
         <div id="weather-small-card" class="weather-cards flex">
           <div id='hourly-cards' class="flex hidden"></div>
           <div id='daily-cards'  class="flex"></div>

@@ -30,7 +30,6 @@
 /* new */
 
 #current {
-  background-image: url('./images/daoudi-aissa-Pe1Ol9oLc4o-unsplash.jpg');
   background-size: 100%;
   color: rgb(255, 255, 255);
   border: 1px solid rgba(1, 2, 54, .05)
@@ -42,6 +41,17 @@
 }
 
 .weather {
-  height: 26vh;
+  height: 28vh;
   width: 90vw;
+}
+
+#weather-small-card{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-points-x: repeat(300px);
+  scroll-snap-type: mandatory;
+}
+
+.weather-card-detail{
+  height: 12vh;
 }

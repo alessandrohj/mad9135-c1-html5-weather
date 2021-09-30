@@ -86,9 +86,9 @@ const APP = {
   mainCard: (forecast)=>{
     // let frequencyToggle = document.getElementById('frequency');
     // frequencyToggle.classList.remove('hidden');
-    let {humidity, temp, wind_speed, weather, feels_like, dt} = forecast.current;
+    let {humidity, temp, wind_speed, weather, feels_like} = forecast.current;
 
-    let {min, max, pop } = forecast.daily[0].temp;
+    let {min, max } = forecast.daily[0].temp;
     let {sunrise, sunset} = forecast.daily[0];
     
 /**
@@ -105,7 +105,7 @@ let wind = document.getElementById('wind');
 let feels = document.getElementById('feels-like');
 let sun = document.getElementById('sunrise');
 let night = document.getElementById('sunset');
-
+let mainIcon = document.getElementById('main-icon');
 /**
  * get info to update components
  */
@@ -113,10 +113,12 @@ let night = document.getElementById('sunset');
   tempMin.textContent = `${Math.round(min)}º`;
   tempMax.textContent = `${Math.round(max)}º`;
   wind.textContent = `${Math.round(wind_speed)} km/h`;
-  humi.textContent = `${Math.round(humidity)}%`;
-  precipitation.textContent = `${pop}%`
+  humi.textContent = `${Math.round(humidity)} %`;
+  precipitation.textContent = `${forecast.daily[0].pop * 100} %`
   feels.textContent = `${Math.round(feels_like)}º`;
   weatherState.textContent = weather[0].main;
+  mainIcon.src = `https://openweathermap.org/img/w/${weather['0'].icon}.png`;
+  mainIcon.alt=`${weather['0'].description}`;
 
   function getHours(time){
     let date = new Date(time * 1000);
@@ -129,6 +131,39 @@ let night = document.getElementById('sunset');
 
   sun.textContent = getHours(sunrise);
   night.textContent = getHours(sunset);
+  
+  APP.setBackground(weather[0].main);
+  },
+  setBackground: (data) => {
+    let card = document.getElementById('current');
+    switch (data) {
+      case 'Clouds':
+        card.style.backgroundImage = 'url(./images/clouds.jpg)';
+        break;
+      case 'Thunderstorm':
+          card.style.backgroundImage = 'url(./images/thunder.jpg)';
+          break;
+     case 'Drizzle':
+        card.style.backgroundImage = 'url(./images/drizzle.jpg)';
+        break;
+    case 'Rain':
+          card.style.backgroundImage = 'url(./images/rain.jpg)';
+          break;
+     case 'Mist':
+            card.style.backgroundImage = 'url(./images/mist.jpg)';
+            break;
+    case 'Atmosphere':
+            card.style.backgroundImage = 'url(./images/general.jpg)';
+            break;
+  case 'Clear':
+              card.style.backgroundImage = 'url(./images/clear.jpg)';
+              break;  
+      default:
+      card.style.backgroundColor = 'url(./images/default.jpg)';
+
+        break;
+    }
+
 
   },
   makeHourlyCards: (forecast)=>{
@@ -195,7 +230,10 @@ let night = document.getElementById('sunset');
       div.innerHTML = `
       <p class="text-white">${dayOfTheWeek}</p>
       <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
-      <p class="text-white">${Math.round(item.temp.min)}º / ${Math.round(item.temp.max)}</p>
+      <span>
+      <p class="text-white text-sm">${Math.round(item.temp.min)}º</p>
+      <p class="text-white text-xl">${Math.round(item.temp.max)}º</p>
+      </span>
       `;
       frag.append(div)
      })
