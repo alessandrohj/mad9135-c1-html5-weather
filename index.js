@@ -111,20 +111,20 @@ const APP = {
         <img src="https://openweathermap.org/img/w/${weather['0'].icon}.png" alt="${weather['0'].description}">
         <p class='description'>${weather['0'].main}</p>
       </div>
-      <div class='flex flex-row gap-10'>
       <div class="temp-now pb-1">
         <h3 class="font-bold text-3xl pb-3">${Math.round(temp)}º</h3>
         <p>Feels like ${Math.round(feels_like)}º</p>
       </div>
-      <div class="temp-day pl-10">
-      <h4 class='font-bold'>Today</h4>
-      <p class="text-xl pb-3">${Math.round(min)}º</p>
-      <p class="text-xl pb-3"> ${Math.round(max)}º</p>
-      </div>
-      </div>
       <div class="extra-weather-info flex gap-10 py-2">
         <p>Wind: ${Math.round(wind_speed)}km/h</p>
         <p>Humidity: ${humidity}%</p>
+      </div>
+      <div class="temp-day pl-10 flex gap-5">
+      <h4 class='font-bold'>Today</h4>
+      <div class='flex pl-5 gap-5'>
+      <p class="text-xl pb-3">${Math.round(min)}º</p>
+      <p class="text-xl pb-3"> ${Math.round(max)}º</p>
+      </div>
       </div>
       </div>`;
 
@@ -274,4 +274,4 @@ const APP = {
   },
 }
 
-document.addEventListener('DOMContentLoaded', APP.init)
+// document.addEventListener('DOMContentLoaded', APP.init)

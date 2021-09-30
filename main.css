@@ -26,3 +26,16 @@
         opacity: 1;
      }
 }
+
+/* new */
+
+#current {
+  background-image: url('./images/daoudi-aissa-Pe1Ol9oLc4o-unsplash.jpg');
+  background-size: 100%;
+  color: rgb(255, 255, 255);
+  border: 1px solid rgba(1, 2, 54, .05)
+}
+
+.weather{
+
+}
