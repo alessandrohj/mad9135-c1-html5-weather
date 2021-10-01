@@ -39,7 +39,6 @@
 #weather-small-card{
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  scroll-snap-points-x: repeat(300px);
   scroll-snap-type: mandatory;
 }
 
@@ -65,4 +64,18 @@ nav{
   100% {
       opacity: 1;
    }
+}
+
+@media only screen and (min-width: 640px) {
+  .weather {
+    height: 40vh;
+    width: 90vw;
+  }
+  .weather-card-detail{
+    height: 17vh;
+    width: 22vw;
+  }
+  #main-icon{
+    width: 6rem;
+  }
 }

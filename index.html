@@ -21,31 +21,31 @@
     	<input id='search-field' class="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white" placeholder="Enter location"/>
 		<button id='search-button' class="rounded-r-lg bg-blue-900  text-white font-bold p-4 uppercase border-grey-400 border-t border-b border-r"><i class="fas fa-search text-3xl"></i></button>
 	</form>
-  <h3 id='get-my-location' class='text-center text-lg font-bold cursor-pointer pb-3' id='get-my-location'>Get my location <i class="fas fa-compass"></i></h3>
+  <h3 id='get-my-location' class='text-center text-lg sm:text-xl font-bold cursor-pointer pb-3' id='get-my-location'>Get my location <i class="fas fa-compass"></i></h3>
 </div>
 </header>
 <section id='weather-section' class="py-6 content-center">
     <div class="current">
-      <div id='current' class="current-details container border rounded rounded-2xl mx-auto block flex flex-col pl-4 h-64 w-80 relative shadow-lg">
+      <div id='current' class="current-details container border rounded rounded-2xl mx-auto sm:ml-7 sm:mr-7 block flex flex-col pl-4 h-64 w-80 sm:w-auto sm:h-96 relative shadow-lg">
         <div class="current-details-location-date">
-          <h2 id="day" class="font-bold text-xl">Monday</h2>
-          <p id="date">Sep 30, 2021</p>
-          <span class="flex py-2">
+          <h2 id="day" class="font-bold text-xl sm:text-3xl"></h2>
+          <p class=" sm:text-xl" id="date">Sep 30, 2021</p>
+          <span class="flex py-2 sm:text-xl">
           <i class="fas fa-map-marker-alt"></i>
-          <p id="city" class="pl-1 text-lg"></p>
+          <p id="city" class="pl-1 text-lg sm:text-xl"></p>
         </span>
         </div>
         <div class="weather-conditions flex-grow">
           <div class="absolute bottom-0">
             <img id='main-icon' src="" alt="">
-          <h2 id='tempNow' class="font-bold text-6xl">15º</h2>
+          <h2 id='tempNow' class="font-bold text-6xl sm:text-7xl">15º</h2>
          <span class="flex gap-1">
            <p  class="text-lg font-bold">Feels like</p>
-           <p id='feels-like' class="text-lg font-bold"></p>
+           <p id='feels-like' class="text-lg sm:text-xl font-bold"></p>
           </span>
-          <p id='weatherState'class="pl-2 font-bold text-lg">Clouds</p>
+          <p id='weatherState'class="pl-2 font-bold text-lg sm:text-xl">Clouds</p>
         </div>
-        <div class="absolute bottom-3 right-3 text-2xl font-bold">
+        <div class="absolute bottom-3 right-3 text-2xl sm:text-4xl font-bold">
           <span class="flex gap-2">
           <p><i class="fas fa-temperature-low"></i></p>
           <p id='temp-min' class="text-center">6º</p>
@@ -60,7 +60,7 @@
     </div>
     <div class="weather mx-auto">
       <div class="weather container border rounded rounded-2xl my-5 mx-auto shadow-lg">
-        <div class="weather-details bg-gray-100 rounded-2xl pb-2 py-1">
+        <div class="weather-details bg-gray-100 rounded-2xl pb-2 py-1 sm:text-xl">
           <div class="weather-details-precipitation flex pl-5"> 
             <h3 class="font-bold">Precipitation</h3>
             <p id='precipitation' class="flex-grow text-right pr-5">15%</p>
@@ -82,13 +82,13 @@
             <p id='sunset' class="flex-grow text-right pr-5">10km/h</p>
           </div>
         </div>
-        <div class="text-center grid grid-cols-3 p-3  rounded rounded-2xl cursor-pointer" id='frequency'>
+        <div class="text-center grid grid-cols-3 p-3  rounded rounded-2xl cursor-pointer sm:text-2xl" id='frequency'>
           <p class="col-span-1 rounded rounded-2xl bg-blue-100 active" id='hourly-toggle'>Hourly</p>
           <p class="col-span-1 rounded-2xl" id='daily-toggle'>Daily</p>
           </div>
-        <div id="weather-small-card" class="weather-cards flex">
+        <div id="weather-small-card" class="weather-cards flex sm:text-2xl">
           <div id='hourly-cards' class="flex active"></div>
-          <div id='daily-cards'  class="flex hidden"></div>
+          <div id='daily-cards'  class="flex hidden "></div>
         </div>
       </div>
     </div>

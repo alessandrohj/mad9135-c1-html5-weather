@@ -183,7 +183,7 @@ let mainIcon = document.getElementById('main-icon');
       div.innerHTML = `
       <p class="text-white">${hour} ${amPm}</p>
       <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
-      <p class="text-white text-xl">${Math.round(item.temp)}º</p>
+      <p class="text-white">${Math.round(item.temp)}º</p>
       `;
       frag.append(div)
      })
@@ -228,8 +228,8 @@ let mainIcon = document.getElementById('main-icon');
       <p class="text-white">${dayOfTheWeek}</p>
       <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
       <span>
-      <p class="text-white text-sm">${Math.round(item.temp.min)}º</p>
-      <p class="text-white text-xl">${Math.round(item.temp.max)}º</p>
+      <p class="text-white text-sm sm:text-xl">${Math.round(item.temp.min)}º</p>
+      <p class="text-white text-xl sm:text-3xl">${Math.round(item.temp.max)}º</p>
       </span>
       `;
       frag.append(div)
