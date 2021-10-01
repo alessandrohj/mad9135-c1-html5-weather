@@ -125,8 +125,6 @@ let mainIcon = document.getElementById('main-icon');
   }
   sun.textContent = getHours(sunrise);
   night.textContent = getHours(sunset);
-
-  // sun.textContent = getHours(sunrise);
   
   APP.setBackground(weather[0].main);
   },
