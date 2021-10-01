@@ -120,7 +120,7 @@ let mainIcon = document.getElementById('main-icon');
 
   function getHours(time){
     let date = new Date(time * 1000);
-    let options = { timeZone: timezone, timeZoneName: 'short', hour: '2-digit', minute: '2-digit' };
+    let options = { timeZone: timezone, hour: '2-digit', minute: '2-digit' };
     return date.toLocaleTimeString('en-US', options);
   }
   sun.textContent = getHours(sunrise);
@@ -171,15 +171,13 @@ let mainIcon = document.getElementById('main-icon');
      let hourly = forecast.hourly.slice(1, 7);
 
      hourly.forEach(item =>{
-      let date = new Date((item.dt - forecast.timezone_offset) * 1000);
-      let hour = date.getHours();
-      let amPm = hour >= 12 ? 'pm' : 'am';
-      hour = (hour % 12) || 12;
+      let options = { timeZone: forecast.timezone, hour: '2-digit'};
+      let hour = new Date(item.dt * 1000).toLocaleTimeString('en-US', options);;
       let div = document.createElement('div');
       div.classList.add('weather-card-detail', 'w-16', 'h-28', 'text-center', 
       'flex', 'flex-col', 'justify-between', 'p-1', 'm-2', 'rounded-xl');
       div.innerHTML = `
-      <p class="text-white">${hour} ${amPm}</p>
+      <p class="text-white">${hour}</p>
       <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
       <p class="text-white">${Math.round(item.temp)}º</p>
       `;
