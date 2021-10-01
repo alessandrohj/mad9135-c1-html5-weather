@@ -23,7 +23,8 @@
 #current {
   background-size: 100%;
   color: rgb(255, 255, 255);
-  border: 1px solid rgba(1, 2, 54, .05)
+  border: 1px solid rgba(1, 2, 54, .05);
+  background-repeat:initial;
 }
 
 
@@ -95,5 +96,20 @@ nav{
   }
   #main-icon{
     width: 8rem;
+  }
+}
+
+@media only screen and (min-width: 1260px){
+  #current{
+    height: 40vh;
+    width: 41vw;
+  }
+  .weather-card-detail{
+    height: 16vh;
+    width: 6vw;
+  }
+  .weather {
+    height: 40vh;
+    width: 55vw;
   }
 }

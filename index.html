@@ -30,7 +30,7 @@
       <div id='current' class="current-details container border rounded rounded-2xl mx-auto sm:ml-7 sm:mr-7 block flex flex-col pl-4 h-64 w-80 sm:w-auto sm:h-96 relative shadow-lg">
         <div class="current-details-location-date">
           <h2 id="day" class="font-bold text-xl sm:text-3xl lg:text-5xl"></h2>
-          <p class=" sm:text-xl" id="date">Sep 30, 2021</p>
+          <p class=" sm:text-xl" id="date"></p>
           <span class="flex py-2 sm:text-xl">
           <i class="fas fa-map-marker-alt"></i>
           <p id="city" class="pl-1 text-lg sm:text-xl"></p>
@@ -39,15 +39,15 @@
         <div class="weather-conditions flex-grow">
           <div class="absolute bottom-0">
             <img id='main-icon' src="" alt="">
-          <h2 id='tempNow' class="font-bold text-6xl sm:text-7xl">15º</h2>
+          <h2 id='tempNow' class="font-bold text-6xl sm:text-7xl"></h2>
          <span class="flex gap-1 text-lg sm:text-2xl lg:text-4xl ">
            <p  class= "font-bold">Feels like</p>
            <p id='feels-like' class= "font-bold"></p>
           </span>
           <p id='weatherState'class="pl-2 font-bold text-lg sm:text-2xl lg:text-4xl lg:pb-2 lg:py-3"></p>
         </div>
-        <div class="absolute bottom-3 right-3 text-2xl sm:text-4xl lg:text-6xl font-bold">
-          <span class="flex gap-2">
+        <div class="absolute bottom-3 right-3 text-2xl sm:text-4xl lg:text-6xl font-bold lg:m-3">
+          <span class="flex gap-2 lg:pb-5">
           <p><i class="fas fa-temperature-low"></i></p>
           <p id='temp-min' class="text-center">6º</p>
         </span>
@@ -83,11 +83,11 @@
             <p id='sunset' class="flex-grow text-right pr-5">10km/h</p>
           </div>
         </div>
-        <div class="text-center grid grid-cols-3 p-3  rounded rounded-2xl cursor-pointer sm:text-2xl" id='frequency'>
+        <div class="text-center grid grid-cols-3 p-3  rounded rounded-2xl cursor-pointer sm:text-2xl lg:text-3xl" id='frequency'>
           <p class="col-span-1 rounded rounded-2xl bg-blue-100 active" id='hourly-toggle'>Hourly</p>
           <p class="col-span-1 rounded-2xl" id='daily-toggle'>Daily</p>
           </div>
-        <div id="weather-small-card" class="weather-cards flex sm:text-2xl">
+        <div id="weather-small-card" class="weather-cards flex sm:text-2xl lg:text-3xl">
           <div id='hourly-cards' class="flex active"></div>
           <div id='daily-cards'  class="flex hidden "></div>
         </div>
