@@ -72,10 +72,11 @@ const APP = {
     if (storage) {
       let obj = JSON.parse(storage);
       APP.mainCard(obj.coord);
-      // APP.makeDailyCards(obj.coord);
+      APP.makeDailyCards(obj.coord);
+      APP.makeHourlyCards(obj.coord);
       APP.findCity(obj.coord);
       let timeNow = Date.now();
-      if ((timeNow - obj.timestamp) * 1000 > 3600) {
+      if ((timeNow - obj.timestamp) * 1000 > 360000) {
         let location = {'lat': obj.coord.lat, 'lon': obj.coord.lon};
         APP.getData(location)
       } else {
@@ -84,10 +85,9 @@ const APP = {
     }
   },
   mainCard: (forecast)=>{
-    let {humidity, temp, wind_speed, weather, feels_like} = forecast.current;
-
+    let {humidity, temp, wind_speed, weather, feels_like, sunrise, sunset} = forecast.current;
+    let {timezone} = forecast;
     let {min, max } = forecast.daily[0].temp;
-    let {sunrise, sunset} = forecast.daily[0];
     
 /**
  * Create / select main card components
@@ -112,7 +112,7 @@ let mainIcon = document.getElementById('main-icon');
   tempMax.textContent = `${Math.round(max)}º`;
   wind.textContent = `${Math.round(wind_speed)} km/h`;
   humi.textContent = `${Math.round(humidity)} %`;
-  precipitation.textContent = `${forecast.daily[0].pop * 100} %`
+  precipitation.textContent = `${Math.round(forecast.daily[0].pop * 100)} %`
   feels.textContent = `${Math.round(feels_like)}º`;
   weatherState.textContent = weather[0].main;
   mainIcon.src = `https://openweathermap.org/img/w/${weather['0'].icon}.png`;
@@ -120,15 +120,13 @@ let mainIcon = document.getElementById('main-icon');
 
   function getHours(time){
     let date = new Date(time * 1000);
-    let hour = date.getHours();
-    let amPm = hour >= 12 ? ' pm' : ' am';
-    hour = (hour % 12) || 12;
-    let minutes = "0" + date.getMinutes();
-    return hour + ':' + minutes.toString().slice(-2) + amPm;
+    let options = { timeZone: timezone, timeZoneName: 'short', hour: '2-digit', minute: '2-digit' };
+    return date.toLocaleTimeString('en-US', options);
   }
-
   sun.textContent = getHours(sunrise);
   night.textContent = getHours(sunset);
+
+  // sun.textContent = getHours(sunrise);
   
   APP.setBackground(weather[0].main);
   },
@@ -173,7 +171,7 @@ let mainIcon = document.getElementById('main-icon');
      let hourly = forecast.hourly.slice(1, 7);
 
      hourly.forEach(item =>{
-      let date = new Date(item.dt * 1000);
+      let date = new Date((item.dt - forecast.timezone_offset) * 1000);
       let hour = date.getHours();
       let amPm = hour >= 12 ? 'pm' : 'am';
       hour = (hour % 12) || 12;
