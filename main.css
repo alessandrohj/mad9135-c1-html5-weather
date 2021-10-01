@@ -79,3 +79,21 @@ nav{
     width: 6rem;
   }
 }
+
+@media only screen and (min-width: 1024px){
+  #current{
+    height: 40vh;
+    width: 35vw;
+  }
+  .weather-card-detail{
+    height: 13vh;
+    width: 8.8vw;
+  }
+  .weather {
+    height: 40vh;
+    width: 60vw;
+  }
+  #main-icon{
+    width: 8rem;
+  }
+}
