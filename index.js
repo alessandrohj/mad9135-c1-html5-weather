@@ -9,7 +9,7 @@ const APP = {
   listeners: ()=>{
     document.getElementById('search-form').addEventListener('submit', APP.getAction);
     document.getElementById('get-my-location').addEventListener('click', APP.getLocation);
-    // document.getElementById('toggle').addEventListener('click', APP.checkFrequency)
+    document.getElementById('frequency').addEventListener('click', APP.checkFrequency)
     APP.handleStorage();
   },
   findCity: async (location)=> {
@@ -84,8 +84,6 @@ const APP = {
     }
   },
   mainCard: (forecast)=>{
-    // let frequencyToggle = document.getElementById('frequency');
-    // frequencyToggle.classList.remove('hidden');
     let {humidity, temp, wind_speed, weather, feels_like} = forecast.current;
 
     let {min, max } = forecast.daily[0].temp;
@@ -160,7 +158,6 @@ let mainIcon = document.getElementById('main-icon');
               break;  
       default:
       card.style.backgroundColor = 'url(./images/default.jpg)';
-
         break;
     }
 
@@ -182,11 +179,11 @@ let mainIcon = document.getElementById('main-icon');
       hour = (hour % 12) || 12;
       let div = document.createElement('div');
       div.classList.add('weather-card-detail', 'w-16', 'h-28', 'text-center', 
-      'flex', 'flex-col', 'justify-between', 'p-1', 'm-2', 'rounded-xl', 'bg-black');
+      'flex', 'flex-col', 'justify-between', 'p-1', 'm-2', 'rounded-xl');
       div.innerHTML = `
       <p class="text-white">${hour} ${amPm}</p>
       <img src="https://openweathermap.org/img/w/${item.weather['0'].icon}.png" alt="${item.weather['0'].description}">
-      <p class="text-white">${Math.round(item.temp)}º</p>
+      <p class="text-white text-xl">${Math.round(item.temp)}º</p>
       `;
       frag.append(div)
      })
@@ -241,20 +238,19 @@ let mainIcon = document.getElementById('main-icon');
     
   },
   checkFrequency:()=>{
-    let hourly = document.getElementById('weather-hourly')
-    let daily = document.getElementById('weather-daily')
-    let selector = document.getElementById('time-change');
-    if (selector.innerHTML === 'Daily') {
-    daily.classList.remove('hidden');
-    hourly.classList.add('hidden');
-    selector.innerHTML = 'Hourly'
-  } else {
-    hourly.classList.remove('hidden');
-    daily.classList.add('hidden');
-    selector.innerHTML = 'Daily'
-  }
+    let hourly = document.getElementById('hourly-toggle')
+    let daily = document.getElementById('daily-toggle')
+    let dailyCards = document.getElementById('daily-cards');
+    let hourlyCards = document.getElementById('hourly-cards');
 
-    return selector.textContent;
+    hourly.classList.toggle("bg-blue-100");
+    daily.classList.toggle("bg-blue-100");
+    hourly.classList.toggle("active");
+    daily.classList.toggle("active");
+    dailyCards.classList.toggle("hidden");
+    hourlyCards.classList.toggle("hidden");
+    dailyCards.classList.toggle("active");
+    hourlyCards.classList.toggle("active");
   },
 }
 

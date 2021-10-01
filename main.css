@@ -17,15 +17,6 @@
     animation: fadeInAnimation cubic-bezier(.17,.67,.83,.67) 1.3s;
   }
 
-  @keyframes fadeInAnimation {
-    0% {
-        opacity: 0;
-        
-    }
-    100% {
-        opacity: 1;
-     }
-}
 
 /* new */
 
@@ -41,7 +32,7 @@
 }
 
 .weather {
-  height: 28vh;
+  height: 30vh;
   width: 90vw;
 }
 
@@ -54,4 +45,24 @@
 
 .weather-card-detail{
   height: 12vh;
+  width: 22vw;
+}
+
+.active{
+  animation: fadeInAnimation cubic-bezier(.17,.67,.83,.67) .6s;
+}
+
+.weather-card-detail,
+nav{
+  background-color: #000436;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+      opacity: 0;
+      
+  }
+  100% {
+      opacity: 1;
+   }
 }

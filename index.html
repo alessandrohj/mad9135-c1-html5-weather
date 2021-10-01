@@ -11,7 +11,7 @@
   </head>
   <body>
 <header>
-  <nav class="font-sans flex flex-col text-center sm:flex-row sm:justify-between py-4 px-6 bg-blue-600 shadow sm:items-baseline w-full">
+  <nav class="font-sans flex flex-col text-center sm:flex-row sm:justify-between py-4 px-6 shadow sm:items-baseline w-full">
     <div class="mb-2 sm:mb-0">
       <a href="#" class="text-2xl no-underline text-white hover:text-red ">Weather App</a>
     </div>
@@ -19,7 +19,7 @@
 <div id='search' class="mx-auto">
   	<form id='search-form' class="m-4 flex pl-4">
     	<input id='search-field' class="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white" placeholder="Enter location"/>
-		<button id='search-button' class="rounded-r-lg bg-blue-800  text-white font-bold p-4 uppercase border-grey-400 border-t border-b border-r"><i class="fas fa-search text-3xl"></i></button>
+		<button id='search-button' class="rounded-r-lg bg-blue-900  text-white font-bold p-4 uppercase border-grey-400 border-t border-b border-r"><i class="fas fa-search text-3xl"></i></button>
 	</form>
   <h3 id='get-my-location' class='text-center text-lg font-bold cursor-pointer pb-3' id='get-my-location'>Get my location <i class="fas fa-compass"></i></h3>
 </div>
@@ -82,13 +82,13 @@
             <p id='sunset' class="flex-grow text-right pr-5">10km/h</p>
           </div>
         </div>
-        <div class="block p-3 flex rounded bg-grey-200 gap-8 inline text-center">
-          <p>Hourly</p>
-          <p>Daily</p>
+        <div class="text-center grid grid-cols-3 p-3  rounded rounded-2xl cursor-pointer" id='frequency'>
+          <p class="col-span-1 rounded rounded-2xl bg-blue-100 active" id='hourly-toggle'>Hourly</p>
+          <p class="col-span-1 rounded-2xl" id='daily-toggle'>Daily</p>
           </div>
         <div id="weather-small-card" class="weather-cards flex">
-          <div id='hourly-cards' class="flex hidden"></div>
-          <div id='daily-cards'  class="flex"></div>
+          <div id='hourly-cards' class="flex active"></div>
+          <div id='daily-cards'  class="flex hidden"></div>
         </div>
       </div>
     </div>
